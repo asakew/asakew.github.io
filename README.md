@@ -7,3 +7,6 @@ https://mdbootstrap.com/docs/standard/
 
 **Contact:**
 office@mdbootstrap.com
+
+## Lazy Load
+docs: https://web.dev/browser-level-image-lazy-loading/
