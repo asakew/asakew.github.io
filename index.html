@@ -21,40 +21,43 @@
     <link rel="stylesheet" href="assets/src/scss/mdb.free.css" />
 
     <script>
-      function loadHTML() {
-        // Load header
-        fetch('header.html')
-                .then(response => response.text())
-                .then(data => {
-                  document.getElementById('header').innerHTML = data;
+      const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-                  // Load navbar
-                  return fetch('inc/navbar-top.html');
-                })
-                .then(response => response.text())
-                .then(data => {
-                  document.getElementById('navbar').innerHTML = data;
-                });
+      function loadHTML(file, elementId) {
+        const cachedData = localStorage.getItem(file);
+        const cacheTime = localStorage.getItem(file + '_time');
 
-        // Load aside
-        fetch('aside.html')
-                .then(response => response.text())
-                .then(data => {
-                  document.getElementById('aside').innerHTML = data;
-                });
+        const now = new Date();
 
-        // Load footer
-        fetch('footer.html')
-                .then(response => response.text())
-                .then(data => {
-                  document.getElementById('footer').innerHTML = data;
-                });
+        if (cachedData && cacheTime && now.getTime() - cacheTime < CACHE_DURATION) {
+          // Use cached data if it's not expired
+          document.getElementById(elementId).innerHTML = cachedData;
+        } else {
+          // Fetch the file if not cached or cache expired
+          fetch(file)
+                  .then(response => response.text())
+                  .then(data => {
+                    document.getElementById(elementId).innerHTML = data;
+                    // Cache the response and timestamp
+                    localStorage.setItem(file, data);
+                    localStorage.setItem(file + '_time', now.getTime());
+                  })
+                  .catch(error => {
+                    console.error('Error fetching the file:', error);
+                  });
+        }
       }
 
-      // Call loadHTML after the page loads
-      window.onload = loadHTML;
-    </script>
+      function loadAllComponents() {
+        loadHTML('header.html', 'header');
+        loadHTML('inc/navbar-top.html', 'navbar');
+        loadHTML('aside.html', 'aside');
+        loadHTML('footer.html', 'footer');
+      }
 
+      // Call loadAllComponents after the page loads
+      window.onload = loadAllComponents;
+    </script>
   </head>
   <body class="container-fluid">
 
