@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Material Design for Bootstrap</title>
+    <title>asaKew</title>
     <!-- MDB icon -->
     <link rel="icon" href="assets/img/mdb-favicon.ico" type="image/x-icon" />
     <!-- Font Awesome -->
@@ -19,8 +19,44 @@
     />
     <!-- MDB -->
     <link rel="stylesheet" href="assets/src/scss/mdb.free.css" />
+
+    <script>
+      function loadHTML() {
+        // Load header
+        fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                  document.getElementById('header').innerHTML = data;
+
+                  // Load navbar
+                  return fetch('inc/navbar-top.html');
+                })
+                .then(response => response.text())
+                .then(data => {
+                  document.getElementById('navbar').innerHTML = data;
+                });
+
+        // Load aside
+        fetch('aside.html')
+                .then(response => response.text())
+                .then(data => {
+                  document.getElementById('aside').innerHTML = data;
+                });
+
+        // Load footer
+        fetch('footer.html')
+                .then(response => response.text())
+                .then(data => {
+                  document.getElementById('footer').innerHTML = data;
+                });
+      }
+
+      // Call loadHTML after the page loads
+      window.onload = loadHTML;
+    </script>
+
   </head>
-  <body>
+  <body class="container-fluid">
 
   <section>
     <li class="nav-item align-items-center d-flex" >
@@ -33,30 +69,16 @@
     </li>
   </section>
 
+  <header id="header"></header>
 
-    <!-- Start your project here-->
-    <div class="container">
-      <div class="d-flex justify-content-center align-items-center" style="height: 100vh">
-        <div class="text-center">
-          <img
-            class="mb-4"
-            src="https://mdbootstrap.com/img/logo/mdb-transparent-250px.png"
-            style="width: 250px; height: 90px"
-          />
-          <h5 class="mb-3">Thank you for using our product. We're glad you're with us.</h5>
-          <p class="mb-3">MDB Team</p>
-          <a
-            class="btn btn-primary btn-lg"
-            data-mdb-ripple-init
-            href="https://mdbootstrap.com/docs/standard/getting-started/"
-            target="_blank"
-            role="button"
-            >Start MDB tutorial</a
-          >
-        </div>
-      </div>
-    </div>
-    <!-- End your project here-->
+  <aside id="aside"></aside>
+
+  <main>
+    <!-- Main content goes here -->
+  </main>
+
+  <footer id="footer"></footer>
+
 
     <!-- MDB -->
     <script src="assets/js/mdb.umd.min.js"></script>
